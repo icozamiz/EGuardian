@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">EGuardian</string>
+    <string name="alerts">Alerts</string>
+    <string name="alert_name">Alert Name</string>
+    <string name="message">Message</string>
+    <string name="setby">Set By</string>
+</resources>
