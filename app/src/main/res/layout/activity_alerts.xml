@@ -38,6 +38,7 @@
         android:background="#000000" >
 
         <LinearLayout
+            android:id="@+id/divider"
             android:layout_width="1dp"
             android:layout_height="match_parent" >
 
@@ -64,7 +65,7 @@
         <TextView
             android:id="@+id/message"
             android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
+            android:paddingLeft="0dp"
             android:paddingRight="5dp"
             android:paddingTop="10dp"
             android:text="@string/message"
@@ -81,10 +82,27 @@
         <TextView
             android:id="@+id/setBy"
             android:paddingBottom="10dp"
-            android:paddingLeft="5dp"
+            android:paddingLeft="0dp"
             android:paddingRight="5dp"
             android:paddingTop="10dp"
-            android:text="@string/setby"
+            android:text="Date"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent" >
+
+            <View style="@style/Divider" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/time"
+            android:paddingBottom="10dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="5dp"
+            android:paddingTop="10dp"
+            android:text="Time"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </TableRow>
