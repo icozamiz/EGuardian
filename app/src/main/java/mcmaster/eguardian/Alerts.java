@@ -33,6 +33,8 @@ import android.widget.TimePicker;
 
 import com.orm.SugarContext;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -142,7 +144,7 @@ public class Alerts extends Activity {
                                           //      + " with message " + message.getText());
                                         Alert alert = new Alert(alertName.getText().toString(), message.getText().toString(), setBy.getText().toString(), time.getText().toString());
                                         alert.save();
-                                        update(alert);
+                                        updateNew(alert);
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -171,14 +173,30 @@ public class Alerts extends Activity {
         setBy.setText(sdf.format(myCalendar.getTime()));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void update(Alert alert) {
-        TableLayout table = (TableLayout)findViewById(R.id.table);
+    private TextView addColumn(String value, TextView config){
+        TextView column = new TextView(this);
+        column.setLayoutParams(config.getLayoutParams());
+        column.setText(value);
+        column.setTextSize(16);
+        column.setPadding(config.getPaddingLeft(),config.getPaddingTop(), config.getPaddingRight(), config.getPaddingBottom());
+        column.setTextColor(config.getCurrentTextColor());
+        column.setTextAlignment(config.getTextAlignment());
+        return column;
+    }
 
+    private LinearLayout addDivider(LinearLayout config){
+        LinearLayout div = new LinearLayout(this);
+        div.setLayoutParams(config.getLayoutParams());
+        div.setBackgroundColor(config.getSolidColor());
+        return div;
+    }
+
+    private void updateNew(Alert alert){
+        TableLayout table = (TableLayout)findViewById(R.id.table);
         TableRow headers = (TableRow)findViewById(R.id.alertHeader);
         TextView alertNameConfig = (TextView) findViewById(R.id.alertName);
         TextView messageConfig = (TextView) findViewById(R.id.message);
-        TextView dateConfig = (TextView) findViewById(R.id.setBy);
+        TextView dateConfig = (TextView) findViewById(R.id.date);
         TextView timeConfig = (TextView) findViewById(R.id.time);
         LinearLayout dividerConfig = (LinearLayout) findViewById(R.id.divider);
 
@@ -187,67 +205,14 @@ public class Alerts extends Activity {
         newRow.setBackgroundColor(Color.parseColor("#303F9F"));
         newRow.setPadding(headers.getPaddingLeft(),headers.getPaddingTop(), headers.getPaddingRight(), headers.getPaddingBottom());
 
-        LinearLayout div = new LinearLayout(this);
-        div.setLayoutParams(dividerConfig.getLayoutParams());
-        div.setBackgroundColor(dividerConfig.getSolidColor());
-        newRow.addView(div);
-
-        TextView aName = new TextView(this);
-        aName.setLayoutParams(alertNameConfig.getLayoutParams());
-        aName.setText(alert.getName());
-        aName.setTextSize(16);
-        aName.setPadding(alertNameConfig.getPaddingLeft(),alertNameConfig.getPaddingTop(), alertNameConfig.getPaddingRight(), alertNameConfig.getPaddingBottom());
-        aName.setTextColor(alertNameConfig.getCurrentTextColor());
-        aName.setTextAlignment(alertNameConfig.getTextAlignment());
-        newRow.addView(aName);
-
-        LinearLayout divm = new LinearLayout(this);
-        divm.setLayoutParams(dividerConfig.getLayoutParams());
-        divm.setBackgroundColor(dividerConfig.getSolidColor());
-        newRow.addView(divm);
-
-        TextView m = new TextView(this);
-        m.setLayoutParams(messageConfig.getLayoutParams());
-        m.setText(alert.getMessage());
-        m.setTextSize(16);
-        m.setPadding(messageConfig.getPaddingLeft(),messageConfig.getPaddingTop(),
-                messageConfig.getPaddingRight(), messageConfig.getPaddingBottom());
-        m.setTextColor(messageConfig.getCurrentTextColor());
-        m.setTextAlignment(messageConfig.getTextAlignment());
-        newRow.addView(m);
-
-        LinearLayout divs = new LinearLayout(this);
-        divs.setLayoutParams(dividerConfig.getLayoutParams());
-        divs.setBackgroundColor(dividerConfig.getSolidColor());
-        newRow.addView(divs);
-
-        TextView date = new TextView(this);
-        date.setLayoutParams(dateConfig.getLayoutParams());
-        date.setText(alert.getDate());
-        date.setTextSize(16);
-        date.setPadding(dateConfig.getPaddingLeft(),dateConfig.getPaddingTop(),
-                dateConfig.getPaddingRight(), dateConfig.getPaddingBottom());
-        date.setTextColor(dateConfig.getCurrentTextColor());
-        date.setTextAlignment(dateConfig.getTextAlignment());
-        newRow.addView(date);
-
-        LinearLayout divt = new LinearLayout(this);
-        divt.setLayoutParams(dividerConfig.getLayoutParams());
-        divt.setBackgroundColor(dividerConfig.getSolidColor());
-        newRow.addView(divt);
-
-        TextView time = new TextView(this);
-        time.setLayoutParams(alertNameConfig.getLayoutParams());
-        time.setText(alert.getTime());
-        time.setTextSize(16);
-        time.setPadding(alertNameConfig.getPaddingLeft(),alertNameConfig.getPaddingTop(),
-                alertNameConfig.getPaddingRight(), alertNameConfig.getPaddingBottom());
-        time.setTextColor(alertNameConfig.getCurrentTextColor());
-        time.setTextAlignment(alertNameConfig.getTextAlignment());
-        newRow.addView(time);
-
+        newRow.addView(addDivider(dividerConfig));
+        newRow.addView(addColumn(alert.getName(), alertNameConfig));
+        newRow.addView(addDivider(dividerConfig));
+        newRow.addView(addColumn(alert.getMessage(), messageConfig));
+        newRow.addView(addDivider(dividerConfig));
+        newRow.addView(addColumn(alert.getDate(), dateConfig));
+        newRow.addView(addDivider(dividerConfig));
+        newRow.addView(addColumn(alert.getTime(), timeConfig));
         table.addView(newRow);
     }
-
-
 }
