@@ -10,7 +10,6 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:text="Alert Name: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -27,7 +26,6 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:text="Message: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -44,7 +42,6 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:text="Date: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -62,7 +59,6 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:text="Time: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 

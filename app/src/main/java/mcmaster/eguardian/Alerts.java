@@ -1,5 +1,6 @@
 package mcmaster.eguardian;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -12,8 +13,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -32,14 +31,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class Alerts extends AppCompatActivity {
+public class Alerts extends Activity {
     private Button button;
     private TextView result;
     final Context context = this;
-    Calendar myCalendar = Calendar.getInstance();
+   Calendar myCalendar = Calendar.getInstance();
 
 
     @Override
@@ -178,12 +179,12 @@ public class Alerts extends AppCompatActivity {
 
         TableRow newRow = new TableRow(this);
         newRow.setLayoutParams(headers.getLayoutParams());
-        newRow.setBackgroundColor(Color.BLACK);
+        newRow.setBackgroundColor(Color.parseColor("#303F9F"));
         newRow.setPadding(headers.getPaddingLeft(),headers.getPaddingTop(), headers.getPaddingRight(), headers.getPaddingBottom());
 
         LinearLayout div = new LinearLayout(this);
         div.setLayoutParams(dividerConfig.getLayoutParams());
-        div.setBackgroundColor(Color.BLACK);
+        div.setBackgroundColor(dividerConfig.getSolidColor());
         newRow.addView(div);
 
         TextView aName = new TextView(this);
@@ -197,7 +198,7 @@ public class Alerts extends AppCompatActivity {
 
         LinearLayout divm = new LinearLayout(this);
         divm.setLayoutParams(dividerConfig.getLayoutParams());
-        divm.setBackgroundColor(Color.BLACK);
+        divm.setBackgroundColor(dividerConfig.getSolidColor());
         newRow.addView(divm);
 
         TextView m = new TextView(this);
@@ -212,7 +213,7 @@ public class Alerts extends AppCompatActivity {
 
         LinearLayout divs = new LinearLayout(this);
         divs.setLayoutParams(dividerConfig.getLayoutParams());
-        divs.setBackgroundColor(Color.BLACK);
+        divs.setBackgroundColor(dividerConfig.getSolidColor());
         newRow.addView(divs);
 
         TextView sB = new TextView(this);
@@ -227,7 +228,7 @@ public class Alerts extends AppCompatActivity {
 
         LinearLayout divt = new LinearLayout(this);
         divt.setLayoutParams(dividerConfig.getLayoutParams());
-        divt.setBackgroundColor(Color.BLACK);
+        divt.setBackgroundColor(dividerConfig.getSolidColor());
         newRow.addView(divt);
 
         TextView ttime = new TextView(this);

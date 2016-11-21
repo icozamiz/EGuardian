@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#828282"
     tools:context="mcmaster.eguardian.Alerts">
 
     <Button
@@ -35,7 +36,7 @@
         android:id="@+id/alertHeader"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:background="#000000" >
+        android:background="@color/colorPrimaryDark" >
 
         <LinearLayout
             android:id="@+id/divider"
