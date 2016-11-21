@@ -1,27 +1,18 @@
 package mcmaster.eguardian;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DialogTitle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -37,6 +28,8 @@ import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import mcmaster.eguardian.domain.Alert;
@@ -48,12 +41,19 @@ public class Alerts extends Activity {
    Calendar myCalendar = Calendar.getInstance();
 
 
+    @TargetApi(Build.VERSION_CODES.N)
     @Override
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alerts);
         SugarContext.init(context);
+
+        List<Alert> alerts = Alert.listAll(Alert.class);
+        for  (Iterator<Alert> itr = alerts.iterator(); itr.hasNext();){
+            Alert a = itr.next();
+            update(a);
+        }
 
         // components from main.xml
         button = (Button) findViewById(R.id.buttonPrompt);
@@ -80,8 +80,8 @@ public class Alerts extends Activity {
                 final EditText message = (EditText) promptsView
                         .findViewById(R.id.editMessage);
 
-                final EditText setBy = (EditText) promptsView
-                        .findViewById(R.id.editSetBy);
+                final EditText date = (EditText) promptsView
+                        .findViewById(R.id.editDate);
 
                 final EditText time = (EditText) promptsView
                         .findViewById(R.id.editTime);
@@ -108,25 +108,24 @@ public class Alerts extends Activity {
                     }
                 });
 
-                final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+                final DatePickerDialog.OnDateSetListener dateSet = new DatePickerDialog.OnDateSetListener() {
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
-                        // TODO Auto-generated method stub
                         myCalendar.set(Calendar.YEAR, year);
                         myCalendar.set(Calendar.MONTH, monthOfYear);
                         myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        updateLabel(setBy);
+                        updateLabel(date);
                     }
 
                 };
 
-                setBy.setOnClickListener(new View.OnClickListener() {
+                date.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-                        new DatePickerDialog(Alerts.this, date, myCalendar
+                        new DatePickerDialog(Alerts.this, dateSet, myCalendar
                                 .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                     }
@@ -142,9 +141,9 @@ public class Alerts extends Activity {
                                         // edit text
                                         //result.setText("Alert " + alertName.getText() + " set by " + setBy.getText()
                                           //      + " with message " + message.getText());
-                                        Alert alert = new Alert(alertName.getText().toString(), message.getText().toString(), setBy.getText().toString(), time.getText().toString());
+                                        Alert alert = new Alert(alertName.getText().toString(), message.getText().toString(), date.getText().toString(), time.getText().toString());
                                         alert.save();
-                                        updateNew(alert);
+                                        update(alert);
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -191,7 +190,7 @@ public class Alerts extends Activity {
         return div;
     }
 
-    private void updateNew(Alert alert){
+    private void update(Alert alert){
         TableLayout table = (TableLayout)findViewById(R.id.table);
         TableRow headers = (TableRow)findViewById(R.id.alertHeader);
         TextView alertNameConfig = (TextView) findViewById(R.id.alertName);
