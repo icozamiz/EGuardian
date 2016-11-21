@@ -31,14 +31,17 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.orm.SugarContext;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import mcmaster.eguardian.domain.Alert;
+
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Alerts extends Activity {
     private Button button;
-    private TextView result;
     final Context context = this;
    Calendar myCalendar = Calendar.getInstance();
 
@@ -48,10 +51,10 @@ public class Alerts extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alerts);
+        SugarContext.init(context);
 
         // components from main.xml
         button = (Button) findViewById(R.id.buttonPrompt);
-        result = (TextView) findViewById(R.id.alertResult);
 
         // add button listener
         button.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +140,9 @@ public class Alerts extends Activity {
                                         // edit text
                                         //result.setText("Alert " + alertName.getText() + " set by " + setBy.getText()
                                           //      + " with message " + message.getText());
-                                        update(alertName.getText().toString(), message.getText().toString(), setBy.getText().toString(), time.getText().toString());
+                                        Alert alert = new Alert(alertName.getText().toString(), message.getText().toString(), setBy.getText().toString(), time.getText().toString());
+                                        alert.save();
+                                        update(alert);
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -167,13 +172,13 @@ public class Alerts extends Activity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void update(String alertName, String message, String setBy, String time) {
+    private void update(Alert alert) {
         TableLayout table = (TableLayout)findViewById(R.id.table);
 
         TableRow headers = (TableRow)findViewById(R.id.alertHeader);
         TextView alertNameConfig = (TextView) findViewById(R.id.alertName);
         TextView messageConfig = (TextView) findViewById(R.id.message);
-        TextView setByConfig = (TextView) findViewById(R.id.setBy);
+        TextView dateConfig = (TextView) findViewById(R.id.setBy);
         TextView timeConfig = (TextView) findViewById(R.id.time);
         LinearLayout dividerConfig = (LinearLayout) findViewById(R.id.divider);
 
@@ -189,7 +194,7 @@ public class Alerts extends Activity {
 
         TextView aName = new TextView(this);
         aName.setLayoutParams(alertNameConfig.getLayoutParams());
-        aName.setText(alertName);
+        aName.setText(alert.getName());
         aName.setTextSize(16);
         aName.setPadding(alertNameConfig.getPaddingLeft(),alertNameConfig.getPaddingTop(), alertNameConfig.getPaddingRight(), alertNameConfig.getPaddingBottom());
         aName.setTextColor(alertNameConfig.getCurrentTextColor());
@@ -203,7 +208,7 @@ public class Alerts extends Activity {
 
         TextView m = new TextView(this);
         m.setLayoutParams(messageConfig.getLayoutParams());
-        m.setText(message);
+        m.setText(alert.getMessage());
         m.setTextSize(16);
         m.setPadding(messageConfig.getPaddingLeft(),messageConfig.getPaddingTop(),
                 messageConfig.getPaddingRight(), messageConfig.getPaddingBottom());
@@ -216,33 +221,33 @@ public class Alerts extends Activity {
         divs.setBackgroundColor(dividerConfig.getSolidColor());
         newRow.addView(divs);
 
-        TextView sB = new TextView(this);
-        sB.setLayoutParams(setByConfig.getLayoutParams());
-        sB.setText(setBy);
-        sB.setTextSize(16);
-        sB.setPadding(setByConfig.getPaddingLeft(),setByConfig.getPaddingTop(),
-                setByConfig.getPaddingRight(), setByConfig.getPaddingBottom());
-        sB.setTextColor(setByConfig.getCurrentTextColor());
-        sB.setTextAlignment(setByConfig.getTextAlignment());
-        newRow.addView(sB);
+        TextView date = new TextView(this);
+        date.setLayoutParams(dateConfig.getLayoutParams());
+        date.setText(alert.getDate());
+        date.setTextSize(16);
+        date.setPadding(dateConfig.getPaddingLeft(),dateConfig.getPaddingTop(),
+                dateConfig.getPaddingRight(), dateConfig.getPaddingBottom());
+        date.setTextColor(dateConfig.getCurrentTextColor());
+        date.setTextAlignment(dateConfig.getTextAlignment());
+        newRow.addView(date);
 
         LinearLayout divt = new LinearLayout(this);
         divt.setLayoutParams(dividerConfig.getLayoutParams());
         divt.setBackgroundColor(dividerConfig.getSolidColor());
         newRow.addView(divt);
 
-        TextView ttime = new TextView(this);
-        ttime.setLayoutParams(alertNameConfig.getLayoutParams());
-        ttime.setText(time);
-        ttime.setTextSize(16);
-        ttime.setPadding(alertNameConfig.getPaddingLeft(),alertNameConfig.getPaddingTop(), alertNameConfig.getPaddingRight(), alertNameConfig.getPaddingBottom());
-        ttime.setTextColor(alertNameConfig.getCurrentTextColor());
-        ttime.setTextAlignment(alertNameConfig.getTextAlignment());
-        newRow.addView(ttime);
+        TextView time = new TextView(this);
+        time.setLayoutParams(alertNameConfig.getLayoutParams());
+        time.setText(alert.getTime());
+        time.setTextSize(16);
+        time.setPadding(alertNameConfig.getPaddingLeft(),alertNameConfig.getPaddingTop(),
+                alertNameConfig.getPaddingRight(), alertNameConfig.getPaddingBottom());
+        time.setTextColor(alertNameConfig.getCurrentTextColor());
+        time.setTextAlignment(alertNameConfig.getTextAlignment());
+        newRow.addView(time);
 
         table.addView(newRow);
     }
-
 
 
 }

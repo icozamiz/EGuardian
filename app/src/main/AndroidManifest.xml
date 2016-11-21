@@ -21,6 +21,12 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".SleepActivity"
             android:screenOrientation="portrait"></activity>
+
+
+        <meta-data android:name="DATABASE" android:value="eguardian.db" />
+        <meta-data android:name="VERSION" android:value="2" />
+        <meta-data android:name="QUERY_LOG" android:value="false" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="mcmaster.eguardian" />
     </application>
 
 </manifest>
