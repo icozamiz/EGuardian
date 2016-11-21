@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="8dp"
+    android:paddingTop="10dp"
+    android:background="#828282"
+    tools:context="mcmaster.eguardian.Main"
+    tools:showIn="@layout/activity_main">
+
+    <Button
+        android:textSize="18sp"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:text="Heart Status"
+        android:id="@+id/heartRate"
+        android:background="@drawable/buttonshape"
+        android:textColor="#03A2FF"
+        android:shadowColor="#828282"
+        android:onClick="onButtonClick2"
+        android:layout_above="@+id/sleepActivity"
+        android:layout_marginBottom="62dp"
+        android:layout_alignLeft="@+id/sleepActivity"
+        android:layout_alignStart="@+id/sleepActivity" />
+
+    <Button
+        android:textSize="18sp"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:text="Sleep Activity"
+        android:id="@+id/sleepActivity"
+        android:background="@drawable/buttonshape"
+        android:textColor="#03A2FF"
+        android:shadowColor="#828282"
+        android:onClick="onButtonClick3"
+        android:layout_marginLeft="98dp"
+        android:layout_marginStart="98dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="117dp" />
+
+    <Button
+        android:textSize="18sp"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:text="Alerts"
+        android:id="@+id/alerts"
+        android:background="@drawable/buttonshape"
+        android:textColor="#03A2FF"
+        android:shadowColor="#828282"
+        android:onClick="onButtonClick"
+        android:layout_marginBottom="62dp"
+        android:layout_above="@+id/heartRate"
+        android:layout_alignLeft="@+id/heartRate"
+        android:layout_alignStart="@+id/heartRate" />
+
+</RelativeLayout>
