@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import mcmaster.eguardian.domain.Alert;
 
@@ -15,33 +16,60 @@ import mcmaster.eguardian.domain.Alert;
  */
 
 public class Main extends AppCompatActivity{
+            private int numSteps = 100;
+            private int bpm = 76;
+            private double sleepHrs = 7.5;
 
-            private ImageButton alertsButton;
-            private ImageButton activityButton;
-            private ImageButton sleepButton;
-            private ImageButton dashboardButton;
 
             @Override
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setContentView(R.layout.content_main);
                 ImageButton alertsButton = (ImageButton) findViewById(R.id.AlertsButton);
-
                 ImageButton activityButton = (ImageButton) findViewById(R.id.ActivityButton);
-
                 ImageButton sleepButton = (ImageButton) findViewById(R.id.SleepActivityButton);
-
                 ImageButton dashboardButton = (ImageButton) findViewById(R.id.dashBoardButton);
+                final TextView sleepPattern = (TextView) findViewById(R.id.sleepPattern);
+                final TextView activity = (TextView) findViewById(R.id.activity);
+                final TextView heartRate = (TextView) findViewById(R.id.heartRate);
 
-                alertsButton.setOnClickListener(new View.OnClickListener() {
+                Thread t = new Thread() {
+
+                    @Override
+                    public void run() {
+                        try {
+                            while (!isInterrupted()) {
+                                Thread.sleep(1000);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        numSteps++;
+                                        if (bpm == 76){
+                                            bpm = 72;
+                                        }else{
+                                            bpm = 76;
+                                        }
+                                        sleepPattern.setText("Sleep Pattern: " + sleepHrs);
+                                        activity.setText("Activity: "+ numSteps);
+                                        heartRate.setText("Heart Rate: " +  bpm);
+                                    }
+                                });
+                            }
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                };
+
+                t.start();
+
+                sleepButton.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View arg0) {
-                        Intent i = new Intent(Main.this, Alerts.class);
+                        Intent i = new Intent(Main.this, SleepActivity.class);
                         startActivity(i);
                     }
                 });
-
                 activityButton.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -50,7 +78,6 @@ public class Main extends AppCompatActivity{
                         startActivity(i);
                     }
                 });
-
                 dashboardButton.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -59,7 +86,6 @@ public class Main extends AppCompatActivity{
                         startActivity(i);
                     }
                 });
-
                 alertsButton.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -68,28 +94,6 @@ public class Main extends AppCompatActivity{
                         startActivity(i);
                     }
                 });
-            }
-
-            public void onButtonClick(View v) {
-                if (v.getId() == R.id.AlertsButton) {
-                    Intent i = new Intent(Main.this, Alerts.class);
-                    startActivity(i);
-                }
-            }
-
-            public void onButtonClick2(View v) {
-                if (v.getId() == R.id.ActivityButton) {
-                    Intent j = new Intent(Main.this, HeartRate.class);
-                    startActivity(j);
-                }
-
-            }
-
-            public void onButtonClick3(View v) {
-                if (v.getId() == R.id.SleepActivityButton) {
-                    Intent k = new Intent(Main.this, SleepActivity.class);
-                    startActivity(k);
-                }
             }
 
 

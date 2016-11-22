@@ -10,7 +10,6 @@
     android:background="#828282"
     tools:context="mcmaster.eguardian.Main">
 
-
     <ImageButton
         android:layout_width="75dp"
         android:layout_height="75dp"
@@ -53,14 +52,50 @@
         android:layout_marginLeft="34dp"
         android:layout_marginStart="34dp" />
 
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:text="Activity: "
+        android:id="@+id/activity"
+        android:layout_marginBottom="21dp"
+        android:layout_above="@+id/SleepActivityButton"
+        android:layout_alignLeft="@+id/dashBoardButton"
+        android:layout_alignStart="@+id/dashBoardButton" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:text="Sleep: "
+        android:id="@+id/sleepPattern"
+        android:layout_marginBottom="70dp"
+        android:layout_alignBottom="@+id/activity"
+        android:layout_alignLeft="@+id/activity"
+        android:layout_alignStart="@+id/activity" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:text="Heart Rate: "
+        android:id="@+id/heartRate"
+        android:layout_above="@+id/sleepPattern"
+        android:layout_alignLeft="@+id/sleepPattern"
+        android:layout_alignStart="@+id/sleepPattern"
+        android:layout_marginBottom="25dp" />
+
     <ImageView
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@mipmap/ic_logo"
-        android:layout_above="@+id/SleepActivityButton"
+        android:layout_above="@+id/heartRate"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="84dp"
-        android:id="@+id/imageView2" />
+        android:layout_marginBottom="46dp"
+        android:id="@+id/logo" />
 
 
 </RelativeLayout>
