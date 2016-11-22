@@ -37,6 +37,7 @@ import mcmaster.eguardian.domain.Alert;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Alerts extends Activity {
     private Button button;
+    private Button deleteButton;
     final Context context = this;
    Calendar myCalendar = Calendar.getInstance();
 
@@ -57,7 +58,16 @@ public class Alerts extends Activity {
 
         // components from main.xml
         button = (Button) findViewById(R.id.buttonPrompt);
+        deleteButton = (Button) findViewById(R.id.buttonDelete);
 
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View arg0) {
+                Alert.deleteAll(Alert.class);
+            }
+        });
         // add button listener
         button.setOnClickListener(new View.OnClickListener() {
 

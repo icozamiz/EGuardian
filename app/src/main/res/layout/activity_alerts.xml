@@ -17,6 +17,13 @@
         android:layout_height="wrap_content"
         android:text="Set New Alert" />
 
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonPrompt"
+        android:text="Delete Alerts" />
+
     <TextView
         android:id="@+id/alertResult"
         android:layout_marginTop="90dp"
@@ -28,7 +35,8 @@
         android:id="@+id/table"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/buttonDelete"
         android:orientation="horizontal"
         android:stretchColumns="*" >
 

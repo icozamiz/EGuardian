@@ -8,54 +8,59 @@
     android:paddingRight="8dp"
     android:paddingTop="10dp"
     android:background="#828282"
-    tools:context="mcmaster.eguardian.Main"
-    tools:showIn="@layout/activity_main">
+    tools:context="mcmaster.eguardian.Main">
 
-    <Button
-        android:textSize="18sp"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:text="Heart Status"
-        android:id="@+id/heartRate"
-        android:background="@drawable/buttonshape"
-        android:textColor="@color/lightblue"
-        android:shadowColor="#828282"
-        android:onClick="onButtonClick2"
-        android:layout_above="@+id/sleepActivity"
-        android:layout_marginBottom="62dp"
-        android:layout_alignLeft="@+id/sleepActivity"
-        android:layout_alignStart="@+id/sleepActivity" />
 
-    <Button
-        android:textSize="18sp"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:text="Sleep Activity"
-        android:id="@+id/sleepActivity"
-        android:background="@drawable/buttonshape"
-        android:textColor="@color/lightblue"
-        android:shadowColor="#828282"
-        android:onClick="onButtonClick3"
-        android:layout_marginLeft="98dp"
-        android:layout_marginStart="98dp"
+    <ImageButton
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_sleep"
+        android:id="@+id/SleepActivityButton"
+        android:scaleType="fitXY"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/dashBoardButton"
+        android:layout_toEndOf="@+id/dashBoardButton" />
+
+    <ImageButton
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_activity"
+        android:id="@+id/ActivityButton"
+        android:scaleType="fitXY"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/SleepActivityButton"
+        android:layout_toEndOf="@+id/SleepActivityButton" />
+
+    <ImageButton
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_alerts"
+        android:id="@+id/AlertsButton"
+        android:scaleType="fitXY"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/ActivityButton"
+        android:layout_toEndOf="@+id/ActivityButton" />
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_dashboard"
+        android:id="@+id/dashBoardButton"
+        android:scaleType="fitXY"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="117dp" />
+        android:layout_marginLeft="34dp"
+        android:layout_marginStart="34dp" />
 
-    <Button
-        android:textSize="18sp"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:text="Alerts"
-        android:id="@+id/alerts"
-        android:background="@drawable/buttonshape"
-        android:textColor="@color/lightblue"
-        android:shadowColor="#828282"
-        android:onClick="onButtonClick"
-        android:layout_marginBottom="62dp"
-        android:layout_above="@+id/heartRate"
-        android:layout_alignLeft="@+id/heartRate"
-        android:layout_alignStart="@+id/heartRate" />
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@mipmap/ic_logo"
+        android:layout_above="@+id/SleepActivityButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="84dp"
+        android:id="@+id/imageView2" />
+
 
 </RelativeLayout>
