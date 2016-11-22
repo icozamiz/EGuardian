@@ -49,9 +49,9 @@ public class Main extends AppCompatActivity{
                                         }else{
                                             bpm = 76;
                                         }
-                                        sleepPattern.setText("Sleep Pattern: " + sleepHrs);
-                                        activity.setText("Activity: "+ numSteps);
-                                        heartRate.setText("Heart Rate: " +  bpm);
+                                        sleepPattern.setText("Sleep: " + sleepHrs + " hrs");
+                                        activity.setText("Activity: "+ numSteps + " steps");
+                                        heartRate.setText("Heart Rate: " +  bpm + " bpm");
                                     }
                                 });
                             }
