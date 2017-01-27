@@ -6,4 +6,5 @@
     <color name="divider_color">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="lightblue">#F019D1</color>
+    <color name="background">#828282</color>
 </resources>

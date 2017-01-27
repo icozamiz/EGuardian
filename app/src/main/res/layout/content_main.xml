@@ -7,7 +7,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="8dp"
     android:paddingTop="10dp"
-    android:background="#828282"
+    android:background="@color/background"
     tools:context="mcmaster.eguardian.Main">
 
     <ImageButton

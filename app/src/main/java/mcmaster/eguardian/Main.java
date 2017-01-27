@@ -1,15 +1,11 @@
 package mcmaster.eguardian;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import mcmaster.eguardian.domain.Alert;
 
 /**
  * Created by i on 2016-11-20.
@@ -74,7 +70,7 @@ public class Main extends AppCompatActivity{
 
                     @Override
                     public void onClick(View arg0) {
-                        Intent i = new Intent(Main.this, HeartRate.class);
+                        Intent i = new Intent(Main.this, PhysicalActivity.class);
                         startActivity(i);
                     }
                 });

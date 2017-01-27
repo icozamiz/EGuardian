@@ -5,7 +5,11 @@ import com.orm.SugarRecord;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import mcmaster.eguardian.SleepActivity;
 
 /**
  * Created by i on 2016-11-22.
@@ -22,7 +26,7 @@ public class HeartRate extends SugarRecord {
 
     public HeartRate(String time, int bpm, String date){
         this.bpm = bpm;
-        DateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+        DateFormat timeFormatter = new SimpleDateFormat("hh:mm:ss");
         DateFormat dateFormatter = new SimpleDateFormat("MM/dd/yy");
         try {
             this.time = (Date)timeFormatter.parse(time);
@@ -32,16 +36,29 @@ public class HeartRate extends SugarRecord {
         }
     }
 
-    public String getTime(){
-        return this.time.toString();
+    public Date getTime(){
+        return this.time;
     }
 
     public int getBpm(){
         return this.bpm;
     }
 
-    public String getDate(){
-        return this.date.toString();
+    public Date getDate(){
+        return this.date;
     }
 
+    public String getHoursOfSleep(Date startDate){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE,1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.add(Calendar.DATE, -1);
+        List<HeartRate> notes;
+        String [] args = {String.valueOf(cal2.getTime().getTime()), String.valueOf(cal.getTime().getTime())};
+        notes = HeartRate.findWithQuery(HeartRate.class,
+                "SELECT * FROM HEART_RATE WHERE (DATE BETWEEN ? AND ?)", args);
+
+        return  String.valueOf(notes.size());
+    }
 }
