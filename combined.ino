@@ -1,7 +1,9 @@
 #include <CurieBLE.h>
 #include "CurieIMU.h"
+#include <SoftwareSerial.h>
 
 BLEPeripheral blePeripheral;       // BLE Peripheral Device (the board you're programming)
+SoftwareSerial mySerial(3,2); // pin 2 = TX, pin 3 = RX (unused)
 BLEService heartRateService("180D"); // BLE Heart Rate Service
 // BLE Heart Rate Measurement Characteristic"
 BLECharacteristic heartRateChar("2A37",  // standard 16-bit characteristic UUID
@@ -14,9 +16,12 @@ float x, y, z;
 float px =0;
 float py =0;
 float pz =0;
+char bpmString[10];
 
 void setup() {
-  Serial.begin(9600);    // initialize serial communication
+  mySerial.begin(9600);
+  Serial.begin(9600);
+  delay(500);// initialize serial communication
   CurieIMU.begin(); 
   CurieIMU.setGyroRange(2000);
   pinMode(13, OUTPUT);   // initialize the LED on pin 13 to indicate when a central is connected
@@ -27,6 +32,10 @@ void setup() {
   blePeripheral.addAttribute(heartRateChar); // add the Heart Rate Measurement characteristic
   blePeripheral.addAttribute(fallChar);
   blePeripheral.begin();
+  mySerial.write(254); // cursor to beginning of first line
+  mySerial.write(128);
+  mySerial.write("BPM:            "); // clear display + legends
+  mySerial.write("ALERT:          ");
   Serial.println("Bluetooth device active, waiting for connections...");
 }
 
@@ -55,12 +64,12 @@ void loop() {
         
       if ((x > 375  || x < -375)&&(px > 375  || px < -375) || ((y > 375 || y < -375)&& (py > 375 || py < -375))|| ((z > 375 || z < -375)&&(pz > 375 || pz < -375))){
         Serial.print("Fall Detected");
-         const unsigned char fallCharArray[2] = { 0, char(px) };
-         fallChar.setValue(fallCharArray, 1);  // and update a fall may have occurred
         Serial.print("\n");
       }
       else if((x > 100  || x < -100)&&(px > 100  || px < -100) || ((y > 100 || y < -100)&& (py > 100 || py < -100))|| ((z > 100 || z < -100)&&(pz > 100 || pz < -100))){
         Serial.print("Active");
+         const unsigned char fallCharArray[2] = { 0, char(px) };
+         fallChar.setValue(fallCharArray, 2);  // and update a fall may have occurred
         Serial.print("\n");
       }
   //    else{
@@ -89,6 +98,10 @@ void updateHeartRate() {
   if (heartRate != oldHeartRate) {      // if the heart rate has changed
     Serial.print("Heart Rate is now: "); // print it
     Serial.println(heartRate);
+    sprintf(bpmString,"%4d",heartRate); // create strings from the numbers
+    mySerial.write(254); // cursor to 7th position on first line
+    mySerial.write(134);
+    mySerial.write(bpmString); // write out the RPM value
     const unsigned char heartRateCharArray[2] = { 0, (char)heartRate };
     heartRateChar.setValue(heartRateCharArray, 2);  // and update the heart rate measurement characteristic
     oldHeartRate = heartRate;           // save the level for next comparison
