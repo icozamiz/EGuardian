@@ -22,6 +22,7 @@ public class HeartRate extends SugarRecord {
     private int bpm;
 
     public HeartRate(){
+        date = new Date();
     }
 
     public HeartRate(String time, int bpm, String date){
@@ -55,10 +56,23 @@ public class HeartRate extends SugarRecord {
         Calendar cal2 = Calendar.getInstance();
         cal2.add(Calendar.DATE, -1);
         List<HeartRate> notes;
-        String [] args = {String.valueOf(cal2.getTime().getTime()), String.valueOf(cal.getTime().getTime())};
+        String [] args = {String.valueOf(cal2.getTime().getTime()), String.valueOf(cal.getTime().getTime()), "35", "55"};
         notes = HeartRate.findWithQuery(HeartRate.class,
-                "SELECT * FROM HEART_RATE WHERE (DATE BETWEEN ? AND ?)", args);
+                "SELECT * FROM HEART_RATE WHERE (DATE BETWEEN ? AND ?) AND (BPM BETWEEN ? AND ?)", args);
 
+        return  String.valueOf(notes.size());
+    }
+
+    public String getSteps(Date startDate){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE,1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.add(Calendar.DATE, -1);
+        List<HeartRate> notes;
+        String [] args = {String.valueOf(cal2.getTime().getTime()), String.valueOf(cal.getTime().getTime()), "85", "150"};
+        notes = HeartRate.findWithQuery(HeartRate.class,
+                "SELECT * FROM HEART_RATE WHERE (DATE BETWEEN ? AND ?) AND (BPM BETWEEN ? AND ?)", args);
         return  String.valueOf(notes.size());
     }
 }

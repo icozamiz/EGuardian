@@ -50,7 +50,7 @@ public class SleepActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sleep_activity);
         SugarContext.init(context);
-        HeartRate.deleteAll(HeartRate.class);
+/*        HeartRate.deleteAll(HeartRate.class);
         DateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
         DateFormat dateFormatter = new SimpleDateFormat("MM/dd/yy");
         Date d = new Date();
@@ -60,7 +60,7 @@ public class SleepActivity extends Activity {
         cal.setTime(d);
         cal.add(Calendar.DATE,1);
         for (int i = 0; i < 7; i++){
-            HeartRate hr = new HeartRate(time, 60, date);
+            HeartRate hr = new HeartRate(time, 35, date);
             cal.add(Calendar.DATE,1);
             hr.save();
         }
@@ -69,7 +69,8 @@ public class SleepActivity extends Activity {
             HeartRate hearRate = itr.next();
             update(hearRate);
 
-        }
+        }*/
+        update(new HeartRate());
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

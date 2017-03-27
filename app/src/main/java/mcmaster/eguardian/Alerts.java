@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 
 import mcmaster.eguardian.domain.Alert;
+import mcmaster.eguardian.domain.Server;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Alerts extends Activity {
@@ -65,6 +66,8 @@ public class Alerts extends Activity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View arg0) {
+                Server s = new Server(context);
+                s.upLoad2Server();
                 Alert.deleteAll(Alert.class);
             }
         });
@@ -223,5 +226,9 @@ public class Alerts extends Activity {
         newRow.addView(addDivider(dividerConfig));
         newRow.addView(addColumn(alert.getTime(), timeConfig));
         table.addView(newRow);
+    }
+
+    private void upload2Server(Alert alert){
+
     }
 }
