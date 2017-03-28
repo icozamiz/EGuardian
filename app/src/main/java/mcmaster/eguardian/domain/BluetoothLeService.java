@@ -51,13 +51,17 @@ public class BluetoothLeService extends Service {
             "mcmaster.eguardian.ACTION_GATT_SERVICES_DISCOVERED";
     public final static String ACTION_DATA_AVAILABLE =
             "mcmaster.eguardian.ACTION_DATA_AVAILABLE";
-    public final static String EXTRA_DATA =
-            "mcmaster.eguardian.EXTRA_DATA";
+    public final static String HEART_RATE_DATA =
+            "mcmaster.eguardian.HEART_RATE_DATA";
+    public final static String FALL_DATA =
+            "mcmaster.eguardian.FALL_DATA";
 
     public final static UUID UUID_HEART_RATE_SERVICE =
             UUID.fromString("0000180D-0000-1000-8000-00805f9b34fb");
     public final static UUID UUID_HEART_RATE_MEASUREMENT =
             UUID.fromString("00002A37-0000-1000-8000-00805f9b34fb");
+    public final static UUID UUID_FALL_MEASUREMENT =
+            UUID.fromString("00002B37-0000-1000-8000-00805f9b34fb");
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
@@ -123,6 +127,7 @@ public class BluetoothLeService extends Service {
         // carried out as per profile specifications:
         // http://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml
                 if (characteristic.getValue() != null){
+
                 if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
                     if (characteristic.getValue() != null){
                     int flag = characteristic.getProperties();
@@ -137,7 +142,7 @@ public class BluetoothLeService extends Service {
                         }
                         final int heartRate = characteristic.getIntValue(format, 1);
                         Log.d(TAG, String.format("Received ArduinoService rate: %d", heartRate));
-                        intent.putExtra(EXTRA_DATA, String.valueOf(heartRate));
+                        intent.putExtra(HEART_RATE_DATA, String.valueOf(heartRate));
                     } else {
                         // For all other profiles, writes the data formatted in HEX.
                         final byte[] data = characteristic.getValue();
@@ -145,10 +150,16 @@ public class BluetoothLeService extends Service {
                             final StringBuilder stringBuilder = new StringBuilder(data.length);
                             for(byte byteChar : data)
                                 stringBuilder.append(String.format("%02X ", byteChar));
-                            intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
+                            intent.putExtra(HEART_RATE_DATA, new String(data) + "\n" + stringBuilder.toString());
                         }
                     }
                 }
+                if (characteristic.getUuid().equals(UUID_FALL_MEASUREMENT)){
+                    intent.putExtra(FALL_DATA, "FALL OCCURRED");
+                }else{
+                    intent.putExtra(FALL_DATA, " ");
+                }
+
             }
         sendBroadcast(intent);
     }
@@ -306,6 +317,12 @@ public class BluetoothLeService extends Service {
             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
             mBluetoothGatt.writeDescriptor(descriptor);
         }
+   /*     if (UUID_FALL_MEASUREMENT.equals(characteristic.getUuid())){
+            BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
+                    UUID.fromString("00002903-0000-1000-8000-00805f9b34fb"));
+            descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+            mBluetoothGatt.writeDescriptor(descriptor);
+        }*/
     }
 
     /**

@@ -2,12 +2,14 @@ package mcmaster.eguardian.domain;
 
 import com.orm.SugarRecord;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import mcmaster.eguardian.SleepActivity;
 
@@ -50,17 +52,20 @@ public class HeartRate extends SugarRecord {
     }
 
     public String getHoursOfSleep(Date startDate){
+        long t = 8;
         Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
+        cal.setTime(startDate);
         cal.add(Calendar.DATE,1);
-        Calendar cal2 = Calendar.getInstance();
-        cal2.add(Calendar.DATE, -1);
         List<HeartRate> notes;
-        String [] args = {String.valueOf(cal2.getTime().getTime()), String.valueOf(cal.getTime().getTime()), "35", "55"};
+        String [] args = {String.valueOf(startDate.getTime()), String.valueOf(cal.getTime().getTime()), "35", "55"};
         notes = HeartRate.findWithQuery(HeartRate.class,
                 "SELECT * FROM HEART_RATE WHERE (DATE BETWEEN ? AND ?) AND (BPM BETWEEN ? AND ?)", args);
-
-        return  String.valueOf(notes.size());
+        if (notes.size() > 0){
+            HeartRate start = notes.get(0);
+            HeartRate finish = notes.get(notes.size()-1);
+            t = getDateDiff(start.getTime(),finish.getTime(),TimeUnit.HOURS);
+        }
+        return  String.valueOf(t);
     }
 
     public String getSteps(Date startDate){
@@ -74,5 +79,10 @@ public class HeartRate extends SugarRecord {
         notes = HeartRate.findWithQuery(HeartRate.class,
                 "SELECT * FROM HEART_RATE WHERE (DATE BETWEEN ? AND ?) AND (BPM BETWEEN ? AND ?)", args);
         return  String.valueOf(notes.size());
+    }
+
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
 }

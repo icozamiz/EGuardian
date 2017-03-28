@@ -50,27 +50,13 @@ public class SleepActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sleep_activity);
         SugarContext.init(context);
-/*        HeartRate.deleteAll(HeartRate.class);
         DateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
         DateFormat dateFormatter = new SimpleDateFormat("MM/dd/yy");
-        Date d = new Date();
-        String date = dateFormatter.format(d);
-        String time = timeFormatter.format(d);
         Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
-        cal.add(Calendar.DATE,1);
         for (int i = 0; i < 7; i++){
-            HeartRate hr = new HeartRate(time, 35, date);
-            cal.add(Calendar.DATE,1);
-            hr.save();
+            update(new HeartRate(), cal.getTime());
+            cal.add(Calendar.DAY_OF_MONTH,-1);
         }
-        List<HeartRate> heartRateList = HeartRate.listAll(HeartRate.class);
-        for  (Iterator<HeartRate> itr = heartRateList.iterator(); itr.hasNext();){
-            HeartRate hearRate = itr.next();
-            update(hearRate);
-
-        }*/
-        update(new HeartRate());
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -92,7 +78,7 @@ public class SleepActivity extends Activity {
         return div;
     }
 
-    private void update(HeartRate hr){
+    private void update(HeartRate hr, Date date){
         TableLayout table = (TableLayout)findViewById(R.id.table);
         TableRow headers = (TableRow)findViewById(R.id.header);
         TextView dateConfig = (TextView) findViewById(R.id.date);
@@ -106,7 +92,7 @@ public class SleepActivity extends Activity {
 
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yy");
-        Date date = new Date();
+        //Date date = new Date();
         String outDate = dateFormatter.format(date.getTime());
         newRow.addView(addDivider(dividerConfig));
         newRow.addView(addColumn(outDate, dateConfig));

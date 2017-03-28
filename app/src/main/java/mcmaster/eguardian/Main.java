@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.orm.SugarContext;
 
@@ -56,8 +57,6 @@ public class Main extends AppCompatActivity {
     private Handler mHandler;
     private boolean mScanning;
     private Context context = this;
-
-    //TODO figure out how to get the service
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -119,21 +118,18 @@ public class Main extends AppCompatActivity {
                 }
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
 
-                int hR = Integer.valueOf(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
+                int hR = Integer.valueOf(intent.getStringExtra(BluetoothLeService.HEART_RATE_DATA));
                 mBluetoothLeService.saveHeartRate(hR);
-/*                DateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
-                DateFormat dateFormatter = new SimpleDateFormat("MM/dd/yy");
-                Date d = new Date();
-                String date = dateFormatter.format(d);
-                String time = timeFormatter.format(d);
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(d);
-                cal.add(Calendar.DATE,1);
-                HeartRate hr = new HeartRate(time, hR, date);
-                cal.add(Calendar.DATE,1);
-                hr.save();*/
                 final TextView heartRate = (TextView) findViewById(R.id.heartRate);
                 heartRate.setText("Heart Rate: " + hR + " bpm");
+
+                if (intent.getStringExtra(BluetoothLeService.FALL_DATA).equals("FALL OCCURRED")){
+                    Context ctx = getApplicationContext();
+                    CharSequence text = "CAUTION: FALL MAY HAVE OCCURRED!";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(ctx, text, duration);
+                    toast.show();
+                }
             }
         }
     };
@@ -187,6 +183,7 @@ public class Main extends AppCompatActivity {
 
 
         HeartRate hr = new HeartRate();
+        heartRate.setText("Heart Rate: No Connection");
         sleepPattern.setText("Sleep: " + hr.getHoursOfSleep(new Date()) + " hrs");
         activity.setText("Activity: " + hr.getSteps(new Date()) + " steps");
         /*
