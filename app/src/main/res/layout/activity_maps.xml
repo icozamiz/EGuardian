@@ -1,0 +1,36 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PhysicalActivity"
+    android:background="#3F51B5">
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="448dp"
+        android:layout_above="@+id/textView3"
+        tools:context="mcmaster.eguardian.PhysicalActivity" />
+
+    <TextView
+        android:text="Hours of Activity:"
+        android:textSize="8pt"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/map"
+        android:layout_marginLeft="100dp"
+        android:paddingTop="10dp"
+        android:layout_gravity="bottom"
+        android:backgroundTint="#000000"/>
+
+
+</FrameLayout>
