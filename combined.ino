@@ -4,6 +4,7 @@
 
 BLEPeripheral blePeripheral;       // BLE Peripheral Device (the board you're programming)
 SoftwareSerial mySerial(3,2); // pin 2 = TX, pin 3 = RX (unused)
+
 BLEService heartRateService("180D"); // BLE Heart Rate Service
 // BLE Heart Rate Measurement Characteristic"
 BLECharacteristic heartRateChar("2A37",  // standard 16-bit characteristic UUID
@@ -17,6 +18,9 @@ float px =0;
 float py =0;
 float pz =0;
 char bpmString[10];
+int temp, rpm;
+char tempstring[10], rpmstring[10]; // create string arrays
+
 
 void setup() {
   mySerial.begin(9600);
@@ -72,10 +76,6 @@ void loop() {
          fallChar.setValue(fallCharArray, 2);  // and update a fall may have occurred
         Serial.print("\n");
       }
-  //    else{
-   //     Serial.print("At rest");
-      //  Serial.print("\n");
-    //  }
       px = x;
       py = y;
       pz = z;
@@ -90,20 +90,14 @@ void loop() {
 }
 
 void updateHeartRate() {
-  /* Read the current voltage level on the A0 analog input pin.
-     This is used here to simulate the heart rate's measurement.
-  */
   int heartRateMeasurement = analogRead(A0);
   int heartRate = map(heartRateMeasurement, 0, 1023, 0, 100);
-  if (heartRate != oldHeartRate) {      // if the heart rate has changed
-    Serial.print("Heart Rate is now: "); // print it
-    Serial.println(heartRate);
-    sprintf(bpmString,"%4d",heartRate); // create strings from the numbers
-    mySerial.write(254); // cursor to 7th position on first line
-    mySerial.write(134);
-    mySerial.write(bpmString); // write out the RPM value
-    const unsigned char heartRateCharArray[2] = { 0, (char)heartRate };
-    heartRateChar.setValue(heartRateCharArray, 2);  // and update the heart rate measurement characteristic
-    oldHeartRate = heartRate;           // save the level for next comparison
-  }
+  Serial.print("Heart Rate is now: "); // print it
+  Serial.println(heartRate);
+  sprintf(bpmString,"%4d",heartRate); // create strings from the numbers
+  mySerial.write(254); // cursor to 7th position on first line
+  mySerial.write(134);
+  mySerial.write(bpmString); // write out the RPM value
+  const unsigned char heartRateCharArray[2] = { 0, (char)heartRate };
+  heartRateChar.setValue(heartRateCharArray, 2);  // and update the heart rate measurement characteristic
 }
