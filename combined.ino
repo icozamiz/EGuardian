@@ -18,8 +18,9 @@ float px =0;
 float py =0;
 float pz =0;
 char bpmString[10];
+char inbyte; 
 int temp, rpm;
-char tempstring[10], rpmstring[10]; // create string arrays
+char tempstring[10], rpmstring[10], alertString[10];; // create string arrays
 
 
 void setup() {
@@ -47,9 +48,9 @@ void loop() {
   // listen for BLE peripherals to connect:
   BLECentral central = blePeripheral.central();
   CurieIMU.readGyroScaled(x, y, z);
-
   // if a central is connected to peripheral:
   if (central) {
+  
     Serial.print("Connected to central: ");
     // print the central's MAC address:
     Serial.println(central.address());
@@ -59,6 +60,34 @@ void loop() {
     // check the heart rate measurement every 200ms
     // as long as the central is still connected:
     while (central.connected()) {
+
+          if (Serial.available()) {
+    // wait a bit for the entire message to arrive
+    delay(100);
+ 
+    //store the first character in var inbyte
+    inbyte = Serial.read();
+    //if it is * then we know to expect text input from Android
+    if (inbyte == '*')
+    {
+      //clear lcd screen
+  //    mySerial.clear();
+      mySerial.write(254);
+      mySerial.write(198);
+      mySerial.write("          ");
+      int i = 0;
+      while (Serial.available() > 0 & i < 9)
+      {
+        alertString[i]=Serial.read();
+        i=i+1;
+      }
+      mySerial.write(254);
+      mySerial.write(198);
+      mySerial.write(alertString);
+    }
+   }
+
+   
       long currentMillis = millis();
       // if 200ms have passed, check the heart rate measurement:
       if (currentMillis - previousMillis >= 1000) {
